@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index')->middleware('auth');
+    Route::post('/favorites/store', [FavoriteController::class, 'store'])->name('favorites.store')->middleware('auth');
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy')->middleware('auth');
     
     // User Recipe Management
     Route::resource('my-recipes', RecipeController::class);

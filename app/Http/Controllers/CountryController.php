@@ -11,8 +11,8 @@ use App\Models\Country;
 class CountryController extends Controller
 {
     public function index(){
-        $countries = Country::all();
-        return view('admin.countries.index', compact('countries'));
+        $Countries = Country::all();
+        return view('admin.dashboard', compact('Countries'));
     }
 
     public function store(Request $request)
