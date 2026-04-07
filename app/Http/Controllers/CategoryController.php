@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 
+/**
+ * CategoryController - Manage categories CRUD
+ */
 class CategoryController extends Controller
 {
     public function index()
