@@ -5,6 +5,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\FavoriteController;
+use App\Services\GroqService;
 
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,15 @@ Route::get('/', function () {
 Route::get('/dashboard', [RecipeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+
+Route::get('/test-ai', function (GroqService $groq) {
+    // جرب مكونات موجودة فعلياً
+    $result = $groq->generateRecipe(['chicken', 'garlic', 'lemon', 'olive oil']);
+    
+    // استخدام dd سيعطيك تفاصيل المصفوفة بشكل واضح جداً
+    dd($result); 
+});
 
 /**
  * User Routes (Standard Authenticated Users)
@@ -39,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('my-recipes.edit');
     Route::put('/my-recipes/{recipe}', [RecipeController::class, 'update'])->name('my-recipes.update');
     Route::delete('/my-recipes/{recipe}', [RecipeController::class, 'destroy'])->name('my-recipes.destroy');
+    
+    // Ingredients Management
+    Route::get('/ingredients/list', [IngredientController::class, 'IngredientList'])->name('ingredients.list');
 });
 
 /**

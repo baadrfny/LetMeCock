@@ -16,7 +16,8 @@
                 <div class="mb-6">
                     <h2 class="text-xl font-semibold text-gray-300 mb-2">Ingredients:</h2>
                     <ul class="list-disc list-inside text-gray-400">
-                        @forelse($recipe->ingredients as $ingredient)
+                        
+                        @forelse($ingredients as $ingredient)
                             <li>{{ $ingredient->name }} - <span class="text-orange-400">{{ $ingredient->pivot->quantity }} {{ $ingredient->pivot->unit }}</span></li>
                         @empty
                             <li class="text-gray-500 italic">No ingredients listed for this recipe.</li>

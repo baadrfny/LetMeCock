@@ -15,6 +15,10 @@
                     <x-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.index')" class="text-gray-400 hover:text-cyan-400 transition-colors">
                         {{ __('Favorites') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('my-recipes.index')" :active="request()->routeIs('my-recipes.index')" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                        {{ __('My Recipes') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

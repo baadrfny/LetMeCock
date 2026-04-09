@@ -20,6 +20,7 @@ class Recipe extends Model
         'video_url',
         'image',
         'suggestion_date',
+        
     ];
 
     protected function casts(): array

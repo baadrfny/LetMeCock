@@ -44,4 +44,11 @@ class IngredientController extends Controller
 
         return redirect()->back()->with('success', 'Ingredient deleted!');
     }
+
+
+    public function IngredientList()
+    {
+        $ingredients = Ingredient::all();
+        return view('recipes.create', compact('ingredients'));
+    }
 }
