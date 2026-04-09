@@ -7,6 +7,7 @@ use App\Models\Recipe;
 use App\Models\Categories;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 /**
  * RecipeController handles CRUD operations for recipes.
@@ -19,8 +20,20 @@ class RecipeController extends Controller
 {
     public function index()
     {
+
+        if(auth()->user()->isAdmin() === "admin"){
+            return redirect()->route('admin.dashboard');
+        }
+        
         $recipes = Recipe::with('category')->latest()->get();
-        return view('dashboard', compact('recipes'));
+        $categories = Categories::all();
+        return view('dashboard', compact('recipes', 'categories'));
+    }
+
+    public function myRecipesIndex()
+    {
+        $recipes = Recipe::with('category')->latest()->get();
+        return view('recipes.index', compact('recipes'));
     }
 
     public function adminIndex()

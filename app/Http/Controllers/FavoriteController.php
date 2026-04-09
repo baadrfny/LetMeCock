@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favorite;
 use Illuminate\Http\Request;
+use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {

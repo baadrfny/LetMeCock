@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\FavoriteController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,12 +16,9 @@ Route::get('/', function () {
  * Shared Dashboard Route
  * Redirects users to their specific dashboard based on their role
  */
-Route::get('/dashboard', function () {
-    if (auth()->user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [RecipeController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 /**
  * User Routes (Standard Authenticated Users)
@@ -33,7 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy')->middleware('auth');
     
     // User Recipe Management
-    Route::resource('my-recipes', RecipeController::class);
+    Route::get('/my-recipes', [RecipeController::class, 'myRecipesIndex'])->name('my-recipes.index');
+    Route::get('/my-recipes/create', [RecipeController::class, 'create'])->name('my-recipes.create');
+    Route::post('/my-recipes', [RecipeController::class, 'store'])->name('my-recipes.store');
+    Route::get('/my-recipes/{recipe}', [RecipeController::class, 'show'])->name('my-recipes.show');
+    Route::get('/my-recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('my-recipes.edit');
+    Route::put('/my-recipes/{recipe}', [RecipeController::class, 'update'])->name('my-recipes.update');
+    Route::delete('/my-recipes/{recipe}', [RecipeController::class, 'destroy'])->name('my-recipes.destroy');
 });
 
 /**
