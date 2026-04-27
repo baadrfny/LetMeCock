@@ -19,11 +19,13 @@
                             </x-nav-link>
                         @endif
                     @endauth
-                    @if(auth()->user()->role === 'admin')
-                        <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes.index')" class="text-gray-400 hover:text-cyan-400 transition-colors">
-                            {{ __('My Recipes') }}
-                        </x-nav-link>
-                    @endif
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes.index')" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                                {{ __('My Recipes') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                     @auth
                         @if(auth()->user()->role === 'user')
                             <x-nav-link :href="route('client.ai.index')" :active="request()->routeIs('client.ai.index')" class="text-gray-400 hover:text-cyan-400 transition-colors">
@@ -35,6 +37,7 @@
                 </div>
             </div>
 
+            @auth
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -69,6 +72,17 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            @else
+            <!-- Guest Links -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
+                <a href="{{ route('login') }}" class="text-gray-400 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    {{ __('Login') }}
+                </a>
+                <a href="{{ route('register') }}" class="bg-orange-500 hover:bg-orange-600 text-black font-bold px-4 py-2 rounded-md text-sm transition-colors">
+                    {{ __('Register') }}
+                </a>
+            </div>
+            @endauth
 
             <div class="-me-2 flex items-center sm:hidden">
                 <button data-mobile-menu-trigger class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-white hover:bg-gray-800 focus:outline-none transition duration-150 ease-in-out">

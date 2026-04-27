@@ -11,25 +11,16 @@ use App\Services\GroqService;
 
 use Illuminate\Support\Facades\Route;
 
-
-
-
-
-
-
-
-
-
+Route::get('/what-to-cook', [RecipeGeneratorController::class, 'showAiGenerator'])->name('client.ai.index');
+Route::post('/ai/generate-guest', [RecipeGeneratorController::class, 'generate'])->name('ai.generate.guest');
 
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-/**
- * Shared Dashboard Route
- * Redirects users to their specific dashboard based on their role
- */
+
+
 Route::get('/dashboard', [RecipeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
