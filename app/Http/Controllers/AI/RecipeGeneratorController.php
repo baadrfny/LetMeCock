@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AI;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ingredient;
-use App\Services\GroqService;
+use App\Services\HuggingFaceService;
 use Illuminate\Http\Request;
 
 class RecipeGeneratorController extends Controller
@@ -24,7 +24,7 @@ class RecipeGeneratorController extends Controller
         return view('ai.ai-generator' , compact('ingredients'));
     }
 
-    public function generate(Request $request, GroqService $groq)
+    public function generate(Request $request, HuggingFaceService $huggingFace)
     {
         $request->validate([
             'ingredients' => 'required|string|min:3'
@@ -36,12 +36,27 @@ class RecipeGeneratorController extends Controller
             return !empty($item);
         });
         
-        $recipe = $groq->generateRecipe($ingredients);
+        $recipe = $huggingFace->generateRecipe($ingredients);
 
         if (isset($recipe['error'])) {
             return response()->json(['message' => 'AI is busy, try again!'], 500);
         }
         
         return response()->json($recipe);
+    }
+
+    public function translate(Request $request, HuggingFaceService $huggingFace)
+    {
+        $request->validate([
+            'recipe' => 'required|array',
+        ]);
+
+        $translated = $huggingFace->translateToArabic($request->input('recipe'));
+
+        if (isset($translated['error'])) {
+            return response()->json(['message' => 'Translation failed, please try again!'], 500);
+        }
+
+        return response()->json($translated);
     }
 }

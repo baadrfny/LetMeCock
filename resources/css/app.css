@@ -1,3 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-background text-white antialiased;
+        font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+        background-color: #0D0D10;
+    }
+
+    ::selection {
+        background-color: #FF6B00;
+        color: #000000;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #0D0D10;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #202024;
+        border-radius: 10px;
+        border: 3px solid #0D0D10;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #FF6B00;
+    }
+
+    input, textarea, select {
+        caret-color: #FF6B00;
+    }
+
+    :focus-visible {
+        outline: 2px solid #FF6B00;
+        outline-offset: 2px;
+    }
+}
+
+@layer components {
+    .glass-header {
+        @apply sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-md;
+    }
+
+    .card-glass {
+        @apply bg-surface border border-white/10 rounded-2xl transition-all duration-300 ease-in-out;
+    }
+
+    .card-glass-hover {
+        @apply hover:-translate-y-1 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5;
+    }
+
+    .chip {
+        @apply inline-flex items-center px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-silver transition-all duration-300 ease-in-out;
+    }
+
+    .chip-active {
+        @apply bg-amber text-black border-amber;
+    }
+}

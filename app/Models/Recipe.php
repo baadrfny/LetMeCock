@@ -33,6 +33,23 @@ class Recipe extends Model
     /**
      * Get the user who created this recipe.
      */
+    /**
+     * Get a displayable image URL, handling both local storage paths
+     * and absolute (internet) image URLs.
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        if (empty($this->image)) {
+            return null;
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        return asset('storage/' . $this->image);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

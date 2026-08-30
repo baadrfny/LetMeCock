@@ -7,12 +7,13 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\AI\RecipeGeneratorController;
-use App\Services\GroqService;
+use App\Services\HuggingFaceService;
 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/what-to-cook', [RecipeGeneratorController::class, 'showAiGenerator'])->name('client.ai.index');
 Route::post('/ai/generate-guest', [RecipeGeneratorController::class, 'generate'])->name('ai.generate.guest');
+Route::post('/ai/translate-guest', [RecipeGeneratorController::class, 'translate'])->name('ai.translate.guest');
 
 
 Route::get('/', function () {
@@ -26,8 +27,8 @@ Route::get('/dashboard', [RecipeController::class, 'index'])
     ->name('dashboard');
 
 
-// Route::get('/test-ai', function (GroqService $groq) {
-//     $result = $groq->generateRecipe(['chicken', 'garlic', 'lemon', 'olive oil']);
+// Route::get('/test-ai', function (HuggingFaceService $huggingFace) {
+//     $result = $huggingFace->generateRecipe(['chicken', 'garlic', 'lemon', 'olive oil']);
     
 //     dd($result); 
 // });
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 
     Route::get('/what-to-cook', [RecipeGeneratorController::class, 'showAiGenerator'])->name('client.ai.index');
     Route::post('/ai/generate', [RecipeGeneratorController::class, 'generate'])->name('ai.generate');
+    Route::post('/ai/translate', [RecipeGeneratorController::class, 'translate'])->name('ai.translate');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

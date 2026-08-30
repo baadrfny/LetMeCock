@@ -23,11 +23,11 @@ $maxWidth = [
         class="fixed inset-0 transform transition-all modal-overlay {{ $show ? 'block' : 'hidden' }}"
         {{ $show ? '' : 'style="display: none;"' }}
     >
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
     </div>
 
     <div
-        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto {{ $show ? 'block' : 'hidden' }}"
+        class="mb-6 bg-surface border border-white/10 rounded-2xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.8)] transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto {{ $show ? 'block' : 'hidden' }}"
         {{ $show ? '' : 'style="display: none;"' }}
     >
         {{ $slot }}

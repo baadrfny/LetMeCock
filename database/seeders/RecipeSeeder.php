@@ -29,7 +29,8 @@ class RecipeSeeder extends Seeder
                 'preparation_steps' => "1. Boil pasta in salted water\n2. Cook pancetta until crispy\n3. Mix eggs and parmesan\n4. Combine pasta with pancetta\n5. Remove from heat and mix in egg mixture\n6. Serve immediately with black pepper",
                 'cook_time' => 25,
                 'country_origin' => 'Italy',
-                'video_url' => 'https://example.com/carbonara',
+                'video_url' => 'https://www.youtube.com/watch?v=3AAdKl1UYZs',
+                'image' => 'https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=800',
                 'ingredients' => [
                     ['name' => 'Pasta', 'quantity' => '400', 'unit' => 'g'],
                     ['name' => 'Eggs', 'quantity' => '3', 'unit' => 'pieces'],
@@ -44,7 +45,8 @@ class RecipeSeeder extends Seeder
                 'preparation_steps' => "1. Mix olive oil, lemon juice, and herbs\n2. Marinate chicken for 2 hours\n3. Preheat grill to medium-high\n4. Grill chicken 6-7 minutes per side\n5. Let rest for 5 minutes\n6. Serve with fresh herbs",
                 'cook_time' => 30,
                 'country_origin' => 'Mediterranean',
-                'video_url' => null,
+                'video_url' => 'https://www.youtube.com/watch?v=o_8EFHftyGQ',
+                'image' => 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=800',
                 'ingredients' => [
                     ['name' => 'Chicken Breast', 'quantity' => '4', 'unit' => 'pieces'],
                     ['name' => 'Olive Oil', 'quantity' => '3', 'unit' => 'tbsp'],
@@ -61,7 +63,8 @@ class RecipeSeeder extends Seeder
                 'preparation_steps' => "1. Chop all vegetables\n2. Heat oil in wok\n3. Stir fry vegetables 3-4 minutes\n4. Add soy sauce and garlic\n5. Cook for 1 more minute\n6. Serve with rice",
                 'cook_time' => 15,
                 'country_origin' => 'China',
-                'video_url' => null,
+                'video_url' => 'https://www.youtube.com/watch?v=YGc5np8fdZQ',
+                'image' => 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800',
                 'ingredients' => [
                     ['name' => 'Bell Peppers', 'quantity' => '2', 'unit' => 'pieces'],
                     ['name' => 'Carrots', 'quantity' => '2', 'unit' => 'pieces'],
@@ -79,7 +82,8 @@ class RecipeSeeder extends Seeder
                 'preparation_steps' => "1. Mix flour, baking powder, salt, and sugar\n2. Whisk in milk and eggs\n3. Heat pan with butter\n4. Pour batter and cook until bubbles form\n5. Flip and cook other side\n6. Serve with syrup",
                 'cook_time' => 20,
                 'country_origin' => 'USA',
-                'video_url' => 'https://example.com/pancakes',
+                'video_url' => 'https://www.youtube.com/watch?v=l5il-6T0HzU',
+                'image' => 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=800',
                 'ingredients' => [
                     ['name' => 'Flour', 'quantity' => '200', 'unit' => 'g'],
                     ['name' => 'Milk', 'quantity' => '300', 'unit' => 'ml'],
@@ -97,7 +101,8 @@ class RecipeSeeder extends Seeder
                 'preparation_steps' => "1. Melt butter in pan\n2. Add minced garlic\n3. Add shrimp and cook 2 minutes per side\n4. Season with salt and pepper\n5. Add lemon juice\n6. Garnish with parsley and serve",
                 'cook_time' => 10,
                 'country_origin' => 'USA',
-                'video_url' => null,
+                'video_url' => 'https://www.youtube.com/watch?v=aZi-sY4hMqM',
+                'image' => 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800',
                 'ingredients' => [
                     ['name' => 'Shrimp', 'quantity' => '500', 'unit' => 'g'],
                     ['name' => 'Butter', 'quantity' => '4', 'unit' => 'tbsp'],
@@ -127,7 +132,7 @@ class RecipeSeeder extends Seeder
                 'cook_time' => $recipeData['cook_time'],
                 'country_origin' => $recipeData['country_origin'],
                 'video_url' => $recipeData['video_url'],
-                'image' => null,
+                'image' => $recipeData['image'] ?? null,
                 'suggestion_date' => null,
             ]);
 

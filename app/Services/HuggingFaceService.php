@@ -5,14 +5,15 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class GroqService
+class HuggingFaceService
 {
     protected $apiKey;
-    protected $baseUrl = 'https://api.groq.com/openai/v1/chat/completions';
+    protected $baseUrl = 'https://router.huggingface.co/v1/chat/completions';
+    protected $model = 'meta-llama/Llama-3.3-70B-Instruct';
 
     public function __construct()
     {
-        $this->apiKey = env('GROQ_API_KEY');
+        $this->apiKey = env('HF_API_KEY');
     }
 
     public function generateRecipe(array $ingredients)
@@ -27,8 +28,8 @@ class GroqService
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout(30)->post($this->baseUrl, [
-                'model' => 'llama-3.3-70b-versatile',
+            ])->timeout(60)->post($this->baseUrl, [
+                'model' => $this->model,
 
                 'messages' => [
                     [
@@ -56,7 +57,6 @@ class GroqService
                 'temperature' => 0.5,
             ]);
 
-            
             if ($response->successful()) {
                 $content = $response->json()['choices'][0]['message']['content'] ?? '{}';
 
@@ -65,10 +65,58 @@ class GroqService
                 return json_decode(trim($cleanContent), true) ?? ['error' => 'Failed to parse AI response'];
             }
 
-            Log::error('Groq API Error: ' . $response->body());
+            Log::error('HuggingFace API Error: ' . $response->body());
             return ['error' => 'API Connection Failed', 'details' => $response->json()];
         } catch (\Exception $e) {
-            Log::error('Groq Service Exception: ' . $e->getMessage());
+            Log::error('HuggingFace Service Exception: ' . $e->getMessage());
+            return ['error' => 'Something went wrong', 'message' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * Translate a generated recipe into Arabic, returning the same JSON shape.
+     */
+    public function translateToArabic(array $recipe)
+    {
+        $originalJson = json_encode($recipe, JSON_UNESCAPED_UNICODE);
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(60)->post($this->baseUrl, [
+                'model' => $this->model,
+
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => "You are a professional translator. 
+                                    Translate the given recipe JSON into Modern Standard Arabic. 
+                                    Keep the exact same JSON keys: 'name', 'description', 'preparation_steps', 'cook_time', 'difficulty', 'country_origin'. 
+                                    'cook_time' must stay an integer. 
+                                    'difficulty' and 'country_origin' should be translated into Arabic. 
+                                    Return ONLY the valid JSON object, with Arabic values, and no extra text or markdown."
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $originalJson
+                    ]
+                ],
+                'temperature' => 0.3,
+            ]);
+
+            if ($response->successful()) {
+                $content = $response->json()['choices'][0]['message']['content'] ?? '{}';
+
+                $cleanContent = preg_replace('/```json|```/', '', $content);
+
+                return json_decode(trim($cleanContent), true) ?? ['error' => 'Failed to parse translation'];
+            }
+
+            Log::error('HuggingFace translate Error: ' . $response->body());
+            return ['error' => 'Translation Service Failed', 'details' => $response->json()];
+        } catch (\Exception $e) {
+            Log::error('HuggingFace translate Exception: ' . $e->getMessage());
             return ['error' => 'Something went wrong', 'message' => $e->getMessage()];
         }
     }
